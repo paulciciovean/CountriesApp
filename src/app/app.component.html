@@ -1,0 +1,208 @@
+<div class="container">
+ 
+<form class="form-inline my-2 my-lg-0" style="margin-left:15%; width: 800px; border-style: solid 3px;">
+  <input style="width: 800px; border-style: solid 3px; margin-top: 5px;"type="search" (ngModelChange)=searchCountry(key.value) #key="ngModel" ngModel
+  class="form-control mr-sm-2" name="key" id="searchCountry" type="search" placeholder="Search a country by name, capital or code" aria-label="Search ">
+</form>
+<button type="button" class="btn btn-dark" (click)="clickFilters()" data-toggle="modal" data-target="#filtersModal">Filters</button>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div *ngFor="let country of countries" style="margin-right: 5%">
+        <div class="card" style="width: 18rem; margin:10%" (click)="clickCard(country)" data-toggle="modal" data-target="#showInfoModal">
+      <img class="card-img-top" src="{{country.flags.png}}" style="width: 287px; height:200px;" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{ country.name.common}}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">  <strong >Capital :</strong> {{ country.capital }} </li>
+        <li class="list-group-item"> <strong>Region :</strong>  {{ country.continents }} </li>
+        <li class="list-group-item"><strong>Population :</strong>  {{ country.population }} </li>
+      </ul>
+      <div class="card-body">
+        
+      </div>
+        </div>
+</div>
+</div>
+<!-- Country information modal -->
+<div class="modal fade" id="showInfoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img class="card-img-top" src="{{countryInfo?.flags.png}}" style="width: 300px; height:200px;"alt="Card image cap">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h2>{{countryInfo?.name.common}}</h2>
+        
+          <div  class="shadow p-3 mb-5 bg-white rounded"> <strong>Alpah2code :</strong> {{ countryInfo?.cca2 }}</div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Capital :</strong>{{ countryInfo?.capital }} </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Region: </strong>  {{ countryInfo?.region }}</div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Population : </strong> {{ countryInfo?.population }} </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>LatLng : </strong> {{ countryInfo?.latlng }} </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Area :</strong>  {{ countryInfo?.area }}</div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>TimeZones :</strong> {{ countryInfo?.timezones }} </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Neighbours :</strong> <p *ngFor="let neighbour of currentNeighbours "><img class="card-img-top" src="{{neighbour.flags.png}}" style="width: 100px; height:50px;margin-right: 1px;"alt="Card image cap"> <a href="#" class="card-link" (click)="neighbourClick(neighbour)">{{ neighbour.name.common }} </a></p> </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"> <strong> Currencies : </strong> <p *ngFor="let currency of currentCurrencies ">{{ currency }}</p> </div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong> Official languages : </strong> <p *ngFor="let lg of currentLanguages">{{lg}}</p></div>
+          <div  class="shadow p-3 mb-5 bg-white rounded"><strong>Current Clock :</strong> {{ currentClock }} </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filters modal -->
+<div class="modal fade" id="filtersModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Filter the countries by :</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p> <strong>Population range :</strong> </p>
+        <input type="number" id="populationLeftInput" name="populationLeftInput" min="1" placeholder="min population" #populationLeftInput="ngModel" ngModel >
+        <input type="number" id="populationRightinput" name="populationRightInput" placeholder="max population" #populationRightInput="ngModel" ngModel>
+        <p style="margin-top: 3px;"><strong>Continent :</strong> </p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="europeChoice" value="Europe" #europeChoice="ngModel" ngModel>
+          <label class="form-check-label" for="europeChoice">
+            Europe
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="asiaChoice" value="Asia" #asiaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="asiaChoice">
+            Asia
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="africaChoice" value="Africa" #africaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="africaChoice">
+            Africa
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="nAmericaChoice"  #nAmericaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="nAmericaChoice">
+            North America
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="sAmericaChoice"  #sAmericaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="sAmericaChoice">
+            South America
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="oceaniaChoice"  #oceaniaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="oceaniaChoice">
+            Oceania
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="antarticaChoice"  #antarticaChoice="ngModel" ngModel>
+          <label class="form-check-label" for="antarticaChoice">
+            Antarctica
+          </label>
+        </div>
+
+
+        <p style="margin-top: 3px;"> <strong> Languages : </strong> </p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="englishChoice"  #englishChoice="ngModel" ngModel>
+          <label class="form-check-label" for="englishChoice">
+            English
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="spanishChoice"  #spanishChoice="ngModel" ngModel>
+          <label class="form-check-label" for="spanishChoice">
+            Spanish
+          </label>
+        </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="frenchChoice"  #frenchChoice="ngModel" ngModel>
+            <label class="form-check-label" for="frenchChoice">
+            French
+            </label>
+          </div>
+        
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="portugueseChoice"  #portugueseChoice="ngModel" ngModel>
+          <label class="form-check-label" for="portugueseChoice">
+            Portuguese
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="germanChoice"  #germanChoice="ngModel" ngModel>
+          <label class="form-check-label" for="germanChoice">
+            German
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="arabicChoice"  #arabicChoice="ngModel" ngModel>
+          <label class="form-check-label" for="arabicChoice">
+            Arabic
+          </label>
+        </div>
+        <p style="margin-top: 3px;"> <strong> Currencies : </strong> </p>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="euroChoice"  #euroChoice="ngModel" ngModel>
+          <label class="form-check-label" for="euroChoice">
+            EUR  (Euro) €
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="usdChoice"  #usdChoice="ngModel" ngModel>
+          <label class="form-check-label" for="usdChoice">
+            USD  (United States Dollar)$
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="gbpChoice"  #gbpChoice="ngModel" ngModel>
+          <label class="form-check-label" for="gbpChoice">
+            GBP (Pound sterling) £
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="jpyChoice"  #jpyChoice="ngModel" ngModel>
+          <label class="form-check-label" for="jpyChoice">
+            JPY (Japanese yen) 円 / ¥
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="audChoice"  #audChoice="ngModel" ngModel>
+          <label class="form-check-label" for="audChoice">
+            AUD (Australian dollar) / A$
+          </label>
+        </div>
+        <p style="margin-top: 3px;"> <strong> TimeZones : </strong> </p>
+        <div *ngFor="let tzone of allTimezones" class="form-check">
+          <input class="form-check-input" type="checkbox" [value]="tzone" [checked]="checkedTimezone" (change)="onCheckboxChange($event)">
+          <label class="form-check-label" for="timezoneChoice">
+            {{tzone}}
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveFilters(populationLeftInput.value,populationRightInput.value,europeChoice.value,asiaChoice.value,
+        africaChoice.value,nAmericaChoice.value,sAmericaChoice.value,oceaniaChoice.value,antarticaChoice.value,englishChoice.value,spanishChoice.value,frenchChoice.value,
+        portugueseChoice.value,germanChoice.value,arabicChoice.value,euroChoice.value,usdChoice.value,gbpChoice.value,jpyChoice.value,audChoice.value)">
+          Save changes</button>
+        <button id="filtersClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
